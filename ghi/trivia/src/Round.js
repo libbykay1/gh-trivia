@@ -165,8 +165,19 @@ function Round() {
 
     return (
         <div className="row">
-            {info.visible === false && (
-                <p>Wait message for round {info.number}</p>
+            {info.visible === false && info.number === 1 &&(
+                <div className="offset-3 col-6">
+                <div className="shadow p-4 mt-4">
+                    <h3>Thank you for coming to Guildhouse Trivia!</h3>
+                    <p>Please refresh this page when your host announces it's time to start.</p>
+                </div></div>
+            )}
+            {info.visible === false && info.number != 1 &&(
+                <div className="offset-3 col-6">
+                <div className="shadow p-4 mt-4">
+                    <h3>Round {info.number} will begin soon!</h3>
+                    <p>Please refresh this page when your host announces it's time to start.</p>
+                </div></div>
             )}
             {info.visible === true && (
             <div className="offset-3 col-6">

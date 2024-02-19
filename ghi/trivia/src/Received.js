@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+
 
 function Received() {
     const navigate = useNavigate();
@@ -16,9 +16,14 @@ function Received() {
 
     return (
         <div>
-            <p>Submission received</p>
+            <div className="offset-3 col-6">
+                <div className="shadow p-4 mt-4">
+                    <h3>Your Round {round} answers have been received!</h3>
+                    <p>Scores and answers will be released shortly.</p>
+                    <button className="btn btn-primary" onClick={goToNextRound}>Next round</button>
+                </div></div>
 
-            <button onClick={goToNextRound}>Next round</button>
+
         </div>
     );
 }
