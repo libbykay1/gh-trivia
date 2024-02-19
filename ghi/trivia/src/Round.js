@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 function Round() {
     const { round } = useParams();
+    const [roundId, setRoundId] = useState();
     const [questions, setQuestions] = useState([]);
     const navigate = useNavigate();
     const [info, setInfo] = useState({});
@@ -75,7 +76,6 @@ function Round() {
         if (response.ok) {
             const data = await response.json();
             setQuestions(data.questions);
-            console.log(data);
         }
     };
 
@@ -83,8 +83,8 @@ function Round() {
         const response = await fetch(`http://localhost:8000/round/${round}`);
         if (response.ok) {
             const data = await response.json();
-            setInfo(data.round[0]);
-            console.log(data);
+            setInfo(data.round);
+            setRoundId(data.round.id)
         }
     }
     const getAnswer = (questionNumber) => {
@@ -110,7 +110,7 @@ function Round() {
             case 10:
                 return answer10;
             default:
-                return ''; // Default value if question number is invalid
+                return '';
         }
     };
 
@@ -148,9 +148,15 @@ function Round() {
     };
 
     useEffect(() => {
-        fetchQuestions();
         fetchInfo();
     }, []);
+
+    useEffect(() => {
+        if (roundId) {
+            fetchQuestions();
+        }
+    }, [roundId]);
+
 
     return (
         <div className="row">

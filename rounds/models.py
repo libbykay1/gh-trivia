@@ -1,20 +1,30 @@
 from django.db import models
 
 
-class Question(models.Model):
-    text = models.TextField()
-    answer = models.CharField(max_length=200)
-    round = models.SmallIntegerField()
-    number = models.SmallIntegerField()
-    points = models.SmallIntegerField()
-
-
 class Round(models.Model):
     number = models.SmallIntegerField()
     title = models.CharField(max_length=200)
     prompt = models.TextField()
     visible = models.BooleanField(default=False)
+    answers_visible = models.BooleanField(default=False, null=True)
     date_used = models.DateField()
+
+    class Meta:
+        ordering = ["-date_used"]
+
+
+class Question(models.Model):
+    text = models.TextField(blank=True)
+    answer = models.CharField(max_length=200)
+    round = models.ForeignKey(
+        Round,
+        related_name="questions",
+        on_delete=models.CASCADE,
+        null=True
+    )
+    number = models.SmallIntegerField()
+    points = models.SmallIntegerField()
+    image = models.URLField(null=True, blank=True)
 
 
 class Team(models.Model):

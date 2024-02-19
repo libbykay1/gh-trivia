@@ -12,7 +12,7 @@ class RoundAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "number",
-
+        "date_used"
     )
 
 

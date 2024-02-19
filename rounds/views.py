@@ -12,10 +12,12 @@ import json
 class RoundEncoder(ModelEncoder):
     model = Round
     properties = [
+        "id",
         "number",
         "title",
         "prompt",
-        "visible"
+        "visible",
+        "answers_visible"
     ]
 
 
@@ -24,8 +26,13 @@ class QuestionListEncoder(ModelEncoder):
     properties = [
         "round",
         "number",
-        "text"
+        "text",
+        "image",
+        "answer"
     ]
+    encoders = {
+        "round": RoundEncoder(),
+    }
 
 
 class SubmissionEncoder(ModelEncoder):
@@ -58,7 +65,7 @@ def get_questions(request, round):
 
 @require_http_methods(["GET"])
 def get_round(request, number):
-    round = Round.objects.filter(number=number)
+    round = Round.objects.filter(number=number)[0]
     return JsonResponse(
         {"round": round},
         encoder=RoundEncoder,
