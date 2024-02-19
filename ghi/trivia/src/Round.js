@@ -152,15 +152,11 @@ function Round() {
         }
     };
 
-    useEffect(() => {
-        fetchInfo();
-    }, []);
+    // eslint-disable-next-line
+    useEffect(() => {fetchInfo();}, []);
 
-    useEffect(() => {
-        if (roundId) {
-            fetchQuestions();
-        }
-    }, [roundId]);
+    // eslint-disable-next-line
+    useEffect(() => {if (roundId) {fetchQuestions();}}, [roundId]);
 
 
     return (
@@ -172,7 +168,7 @@ function Round() {
                     <p>Please refresh this page when your host announces it's time to start.</p>
                 </div></div>
             )}
-            {info.visible === false && info.number != 1 &&(
+            {info.visible === false && info.number !== 1 &&(
                 <div className="offset-3 col-6">
                 <div className="shadow p-4 mt-4">
                     <h3>Round {info.number} will begin soon!</h3>
