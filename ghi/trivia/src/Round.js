@@ -118,32 +118,37 @@ function Round() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = {}
-        data.team = team;
-        data.double_or_nothing = doubleBool;
-        data.answer1 = answer1;
-        data.answer2 = answer2;
-        data.answer3 = answer3;
-        data.answer4 = answer4;
-        data.answer5 = answer5;
-        data.answer6 = answer6;
-        data.answer7 = answer7;
-        data.answer8 = answer8;
-        data.answer9 = answer9;
-        data.answer10 = answer10;
-        data.round = round;
-        const url = 'http://localhost:8000/submit';
-        const fetchConfig = {
-            method: "post",
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
 
-        const response = await fetch(url, fetchConfig);
-        if (response.ok) {
-            navigate(`/submissionreceived/${round}`)
+        const confirmed = window.confirm("Are you sure you're ready to submit?");
+
+        if (confirmed) {
+            const data = {}
+            data.team = team;
+            data.double_or_nothing = doubleBool;
+            data.answer1 = answer1;
+            data.answer2 = answer2;
+            data.answer3 = answer3;
+            data.answer4 = answer4;
+            data.answer5 = answer5;
+            data.answer6 = answer6;
+            data.answer7 = answer7;
+            data.answer8 = answer8;
+            data.answer9 = answer9;
+            data.answer10 = answer10;
+            data.round = round;
+            const url = 'http://localhost:8000/submit';
+            const fetchConfig = {
+                method: "post",
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+
+            const response = await fetch(url, fetchConfig);
+            if (response.ok) {
+                navigate(`/submissionreceived/${round}`)
+            }
         }
     };
 
