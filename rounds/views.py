@@ -122,3 +122,11 @@ def new_submission(request):
             encoder=SubmissionEncoder,
             safe=False
         )
+
+
+def get_round_submissions(request, round):
+    submissions = Submission.objects.filter(round=round)
+    return JsonResponse(
+        {"submissions": submissions},
+        encoder=SubmissionEncoder
+    )

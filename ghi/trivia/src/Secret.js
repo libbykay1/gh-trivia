@@ -8,7 +8,7 @@ function Secret() {
     const [newTeam, setNewTeam] = useState();
 
     const handleRoundChange = (event) => {
-        const value = event.target.value;
+        const value = parseInt(event.target.value);
         setRound(value);
     }
 
@@ -16,12 +16,18 @@ function Secret() {
         setNewTeam(event.target.value);
     }
     const fetchSubmissions = async () => {
-        const response = await fetch('http://localhost:8000/submit');
+        const response = await fetch(`http://localhost:8000/submissions/${round}`);
         if (response.ok) {
             const data = await response.json();
             setSubmissions(data.submissions);
 
         }
+    }
+
+    const handleRoundChangeSubmit = async event => {
+        event.preventDefault();
+        fetchAnswers();
+        fetchSubmissions();
     }
     const fetchTeams = async () => {
         const url = 'http://localhost:8000/teams';
@@ -67,7 +73,19 @@ function Secret() {
     useEffect(() => {fetchSubmissions(); fetchTeams(); fetchAnswers()}, []);
     return (
         <div>
-
+        <div className="offset-3 col-6">
+                <div className="shadow p-4 mt-4">
+                    <form onSubmit={handleRoundChangeSubmit} id="round-change-form">
+                <label htmlFor="round">Round:</label>
+                <select onChange={handleRoundChange} id="round">
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                                    </select>
+                                    <button className="btn btn-primary">Go</button>
+                                    </form>
+                </div></div>
             <div className="offset-0 col-14">
                 <div className="shadow p-4 mt-4">
             <table className='table'>
@@ -86,7 +104,6 @@ function Secret() {
                 </thead>
                 <tbody>
                     {submissions
-                    .filter(submission => submission.round === round)
                     .map(submission => {
                         return(
                             <tr key={submission.id}>
