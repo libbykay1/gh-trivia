@@ -6,11 +6,14 @@ class Round(models.Model):
     title = models.CharField(max_length=200)
     prompt = models.TextField()
     visible = models.BooleanField(default=False)
-    answers_visible = models.BooleanField(default=False, null=True)
+    answers = models.CharField(null=True, max_length=255)
     date_used = models.DateField()
 
     class Meta:
         ordering = ["-date_used"]
+
+    def __str__(self):
+        return self.title + " " + str(self.date_used)
 
 
 class Question(models.Model):
@@ -23,7 +26,7 @@ class Question(models.Model):
         null=True
     )
     number = models.SmallIntegerField()
-    points = models.SmallIntegerField()
+    points = models.SmallIntegerField(default=1)
     image = models.URLField(null=True, blank=True)
 
 
@@ -37,6 +40,9 @@ class Team(models.Model):
 
     class Meta:
         ordering = ["-total_points"]
+
+    def __str__(self):
+        return self.team_name
 
 
 class Submission(models.Model):
@@ -53,3 +59,10 @@ class Submission(models.Model):
     answer9 = models.CharField(max_length=200, null=True)
     answer10 = models.CharField(max_length=200, null=True)
     round = models.SmallIntegerField(null=True)
+    team_object = models.ForeignKey(
+        Team,
+        related_name="submissions",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )

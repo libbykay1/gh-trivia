@@ -19,17 +19,17 @@ function Round() {
     const [answer9, setAnswer9] = useState('');
     const [answer10, setAnswer10] = useState('');
     const [team, setTeam] = useState('');
-    const [double, setDouble] = useState(false);
-    const doubleBool = double === 'true';
+    // const [double, setDouble] = useState(false);
+    // const doubleBool = double === 'true';
 
     const handleTeamChange = (event) => {
         const value = event.target.value;
         setTeam(value);
     }
 
-    const handleDoubleChange = (event) => {
-        setDouble(event.target.checked);
-    }
+    // const handleDoubleChange = (event) => {
+    //     setDouble(event.target.checked);
+    // }
 
     const handleAnswerChange = (event, questionNumber) => {
         const { value } = event.target;
@@ -72,7 +72,7 @@ function Round() {
 
 
     const fetchQuestions = async () => {
-        const response = await fetch(`http://localhost:8000/questions/${round}`);
+        const response = await fetch(`http://localhost:8000/questions/${roundId}`);
         if (response.ok) {
             const data = await response.json();
             setQuestions(data.questions);
@@ -124,7 +124,7 @@ function Round() {
         if (confirmed) {
             const data = {}
             data.team = team;
-            data.double_or_nothing = doubleBool;
+            // data.double_or_nothing = doubleBool;
             data.answer1 = answer1;
             data.answer2 = answer2;
             data.answer3 = answer3;
@@ -196,7 +196,8 @@ function Round() {
                     {questions.map(question => {
 
                         return (<div key={question.number}>
-                            <label htmlFor={`question${question.number}`}>{question.number}. {question.text}</label>
+                            <label htmlFor={`question${question.number}`}>{question.number}. {question.text}{question.image !== null && (
+                                <img alt='' style={{ width: '600px' }} src={question.image}/>)}</label>
                             <div className="form-floating mb-3">
                                 <input
                                     value={getAnswer(question.number)}
@@ -209,7 +210,7 @@ function Round() {
                             </div></div>
                         )
                     }) }
-                    <label htmlFor="double">Double or nothing?</label>
+                    {/* <label htmlFor="double">Double or nothing?</label>
                         <div className="form-floating mb-3">
                             <input
                                 checked={double}
@@ -219,7 +220,7 @@ function Round() {
                                 name="double"
                                 id="double"
                             />
-                        </div>
+                        </div> */}
                     <button className="btn btn-primary">Submit</button>
                     </form>
                 </div>
