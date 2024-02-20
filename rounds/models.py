@@ -18,7 +18,7 @@ class Round(models.Model):
 
 class Question(models.Model):
     text = models.TextField(blank=True)
-    answer = models.CharField(max_length=200)
+    answer = models.CharField(max_length=200, blank=True)
     round = models.ForeignKey(
         Round,
         related_name="questions",
