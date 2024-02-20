@@ -11,7 +11,6 @@ import json
 from django.forms.models import model_to_dict
 
 
-
 class TeamEncoder(ModelEncoder):
     model = Team
     properties = [
@@ -144,3 +143,11 @@ def update_scores(request, id):
     return JsonResponse(
         model_to_dict(team), safe=False
     )
+
+
+@require_http_methods(["PUT"])
+def make_visible(request, round):
+    round = Round.objects.filter(number=round)[0]
+    round.visible = True
+    round.save()
+    return JsonResponse({"round": round}, encoder=RoundEncoder)
