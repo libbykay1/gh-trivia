@@ -6,8 +6,8 @@ function Secret() {
     const [answers, setAnswers] = useState([]);
     const [round, setRound] = useState(1);
     const [newTeam, setNewTeam] = useState();
-    const [teamToEdit, setTeamToEdit] = useState();
-    const [points, setPoints] = useState(0);
+    const [teamToEdit, setTeamToEdit] = useState('');
+    const [points, setPoints] = useState('');
 
     const handleRoundChange = (event) => {
         const value = parseInt(event.target.value);
@@ -62,7 +62,10 @@ function Secret() {
 
         const response = await fetch(url, fetchConfig);
         if(response.ok){
+            setPoints('');
+            setTeamToEdit('');
             fetchTeams();
+
         }
     }
 
@@ -130,7 +133,7 @@ function Secret() {
                                     </form>
                 <form onSubmit={updateScores} id='scores-form'>
                     <label htmlFor="teamId">Team: </label>
-                    <select onChange={handleTeamToEditChange} id="teamId">
+                    <select onChange={handleTeamToEditChange} id="teamId" value={teamToEdit}>
                         <option value=''></option>
                         {teams.map(team => {
                             return(
