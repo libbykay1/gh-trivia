@@ -8,10 +8,6 @@ function Secret() {
     const [newTeam, setNewTeam] = useState();
     const [teamToEdit, setTeamToEdit] = useState('');
     const [points, setPoints] = useState('');
-    const [roundOneVisible, setRoundOneVisible] = useState(false)
-    const [roundTwoVisible, setRoundTwoVisible] = useState(false)
-    const [roundThreeVisible, setRoundThreeVisible] = useState(false)
-    const [roundFourVisible, setRoundFourVisible] = useState(false)
 
     const handleRoundChange = (event) => {
         const value = parseInt(event.target.value);
@@ -102,7 +98,7 @@ function Secret() {
         };
 
         const response = await fetch(url, fetchConfig);
-        if(response.ok){setRoundOneVisible(true)}}
+        if(response.ok){window.alert("Round 1 has been released!")}}
     }
 
     const releaseRoundTwo = async event => {
@@ -119,7 +115,7 @@ function Secret() {
         };
 
         const response = await fetch(url, fetchConfig);
-        if(response.ok){setRoundTwoVisible(true)}}
+        if(response.ok){window.alert("Round 2 has been released!")}}
     }
 
     const releaseRoundThree = async event => {
@@ -136,7 +132,7 @@ function Secret() {
         };
 
         const response = await fetch(url, fetchConfig);
-        if(response.ok){setRoundThreeVisible(true)}}
+        if(response.ok){window.alert("Round 3 has been released!")}}
     }
 
     const releaseRoundFour = async event => {
@@ -153,7 +149,7 @@ function Secret() {
         };
 
         const response = await fetch(url, fetchConfig);
-        if(response.ok){setRoundFourVisible(true)}}
+        if(response.ok){window.alert("Round 4 has been released!")}}
     }
 
     const fetchAnswers = async() => {
@@ -308,14 +304,14 @@ function Secret() {
             </div></div>
             <div className="offset-3 col-6">
                 <div className="shadow p-4 mt-4">
-                    {roundOneVisible ===false &&(
-                    <button className='btn btn-primary' onClick={releaseRoundOne}>Release Round 1</button>)}
-                    {roundTwoVisible ===false &&(
-                    <button className='btn btn-primary' onClick={releaseRoundTwo}>Release Round 2</button>)}
-                    {roundThreeVisible ===false &&(
-                    <button className='btn btn-primary' onClick={releaseRoundThree}>Release Round 3</button>)}
-                    {roundFourVisible ===false &&(
-                    <button className='btn btn-primary' onClick={releaseRoundFour}>Release Round 4</button>)}
+
+                    <button className='btn btn-primary' onClick={releaseRoundOne}>Release Round 1</button>
+
+                    <button className='btn btn-primary' onClick={releaseRoundTwo}>Release Round 2</button>
+
+                    <button className='btn btn-primary' onClick={releaseRoundThree}>Release Round 3</button>
+
+                    <button className='btn btn-primary' onClick={releaseRoundFour}>Release Round 4</button>
                     </div>
                 </div>
         </div>
