@@ -6,10 +6,22 @@ function Secret() {
     const [answers, setAnswers] = useState([]);
     const [round, setRound] = useState(1);
     const [newTeam, setNewTeam] = useState();
+    const [teamToEdit, setTeamToEdit] = useState();
+    const [points, setPoints] = useState(0);
 
     const handleRoundChange = (event) => {
         const value = parseInt(event.target.value);
         setRound(value);
+    }
+
+
+    const handlePointsChange = event => {
+        setPoints(event.target.value);
+    }
+
+
+    const handleTeamToEditChange = event => {
+        setTeamToEdit(event.target.value);
     }
 
     const handleNewTeamChange = (event) => {
@@ -21,6 +33,36 @@ function Secret() {
             const data = await response.json();
             setSubmissions(data.submissions);
 
+        }
+    }
+
+    const updateScores = async event => {
+        event.preventDefault();
+        const data = {}
+        if (round === 1) {
+            data.round_one_points = points;
+        }
+        if (round === 2) {
+            data.round_two_points = points;
+        }
+        if (round === 3) {
+            data.round_three_points = points;
+        }
+        if (round === 4) {
+            data.round_four_points = points;
+        }
+        const url = `http://localhost:8000/teams/edit/${teamToEdit}`;
+        const fetchConfig = {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const response = await fetch(url, fetchConfig);
+        if(response.ok){
+            fetchTeams();
         }
     }
 
@@ -76,7 +118,8 @@ function Secret() {
         <div className="offset-3 col-6">
                 <div className="shadow p-4 mt-4">
                     <form onSubmit={handleRoundChangeSubmit} id="round-change-form">
-                <label htmlFor="round">Round:</label>
+                <label htmlFor="round">Round: </label>
+
                 <select onChange={handleRoundChange} id="round">
                     <option value='1'>1</option>
                     <option value='2'>2</option>
@@ -85,6 +128,20 @@ function Secret() {
                                     </select>
                                     <button className="btn btn-primary">Go</button>
                                     </form>
+                <form onSubmit={updateScores} id='scores-form'>
+                    <label htmlFor="teamId">Team: </label>
+                    <select onChange={handleTeamToEditChange} id="teamId">
+                        <option value=''></option>
+                        {teams.map(team => {
+                            return(
+                                <option key={team.id} value={team.id}>{team.team_name}</option>
+                            )
+                        })}
+                    </select>
+                    <label htmlFor='points'>Points: </label>
+                    <input value={points} onChange={handlePointsChange} type="number" id='points' />
+                    <button className='btn btn-primary'>Add</button>
+                </form>
                 </div></div>
             <div className="offset-0 col-14">
                 <div className="shadow p-4 mt-4">

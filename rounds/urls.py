@@ -4,7 +4,8 @@ from .views import (
     new_submission,
     get_round,
     get_teams,
-    get_round_submissions
+    get_round_submissions,
+    update_scores
 )
 
 urlpatterns = [
@@ -17,4 +18,5 @@ urlpatterns = [
         get_round_submissions,
         name="get_round_submissions"
     ),
+    path("teams/edit/<int:id>", update_scores, name="update_scores"),
 ]

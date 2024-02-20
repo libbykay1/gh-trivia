@@ -8,6 +8,8 @@ from .models import (
 )
 from django.views.decorators.http import require_http_methods
 import json
+from django.forms.models import model_to_dict
+
 
 
 class TeamEncoder(ModelEncoder):
@@ -124,9 +126,21 @@ def new_submission(request):
         )
 
 
+@require_http_methods(["GET"])
 def get_round_submissions(request, round):
     submissions = Submission.objects.filter(round=round)
     return JsonResponse(
         {"submissions": submissions},
         encoder=SubmissionEncoder
+    )
+
+
+@require_http_methods(["PUT"])
+def update_scores(request, id):
+    content = json.loads(request.body)
+    Team.objects.filter(id=id).update(**content)
+    team = Team.objects.get(id=id)
+    team.save()
+    return JsonResponse(
+        model_to_dict(team), safe=False
     )

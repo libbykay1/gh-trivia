@@ -44,6 +44,15 @@ class Team(models.Model):
     def __str__(self):
         return self.team_name
 
+    def save(self, *args, **kwargs):
+        self.total_points = (
+            self.round_one_points
+            + self.round_two_points
+            + self.round_three_points
+            + self.round_four_points
+        )
+        super(Team, self).save(*args, **kwargs)
+
 
 class Submission(models.Model):
     team = models.CharField(max_length=200)
